@@ -36,7 +36,8 @@ San Salvador, El Salvador\\
 rtorres.plus25@gmail.com}
 \and
 \IEEEauthorblockN{Edwin Henriquez}
-\IEEEauthorblockA{\textit{Independent Researcher}\\
+\IEEEauthorblockA{\textit{Cybersecurity Analyst}\\
+\textit{Independent Researcher}\\
 San Salvador, El Salvador\\
 ehciberseguridad@gmail.com}
 \and
@@ -61,7 +62,7 @@ attack surface management, vulnerability verification, cybersecurity automation,
 
 \section{Introduction}
 
-Internet-facing infrastructure changes continuously as teams add subdomains, deploy services, rotate certificates, and expose administrative interfaces. Fast scanning systems such as ZMap demonstrated that Internet-wide measurement can be practical~\cite{Durumeric2013ZMap}; Censys subsequently showed how repeated scanning can support a searchable view of public services~\cite{Durumeric2015Censys}. Enterprise EASM narrows that capability to the assets an organization is authorized to assess and adds prioritization, historical comparison, and remediation support.
+Internet-facing infrastructure changes continuously as teams add subdomains, deploy services, rotate certificates, and expose administrative interfaces. Fast scanning systems such as ZMap demonstrated that Internet-wide measurement can be practical~\cite{Durumeric2013ZMap}; Censys subsequently showed how repeated scanning can support a searchable view of public services~\cite{Durumeric2015Censys}. Enterprise EASM narrows that capability to the assets an organization is authorized to assess and adds prioritization, historical comparison, and remediation support. The platform's name, \argos, is inspired by Argos Panoptes, the all-seeing hundred-eyed giant from Greek mythology, symbolizing continuous and comprehensive monitoring of the attack surface.
 
 The engineering problem is not only to run scanners. First, discovery can produce third-party hosts or redirects, so authorization must be enforced again at execution time rather than assumed from an initial target string. Second, signature-based findings are observations, not automatically verified vulnerabilities. Third, severity alone is an incomplete remediation signal. The limitations of a single Common Vulnerability Scoring System (CVSS) value have been discussed since early empirical analyses~\cite{Mell2006CVSS,Scarfone2009CVSS}, while the Exploit Prediction Scoring System (EPSS) and recent prioritization surveys emphasize exploitation probability, context, and multiple evidence sources~\cite{Jacobs2021EPSS,Jiang2025Prioritization}. Finally, an LLM that reads scan output is exposed to text controlled by the scanned system. Indirect prompt injection can convert retrieved content into adversarial instructions~\cite{Greshake2023Indirect,Hines2024Spotlighting}.
 
