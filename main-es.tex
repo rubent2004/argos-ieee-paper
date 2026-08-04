@@ -62,6 +62,12 @@ gestión de superficie de ataque, verificación de vulnerabilidades, automatizac
 
 \section{Introduction}
 
+\begin{figure}[htbp]
+\centerline{\includegraphics[width=0.2\textwidth]{figures/logo.pdf}}
+\caption{Logotipo de la plataforma \argos.}
+\label{fig:logo}
+\end{figure}
+
 La infraestructura expuesta a Internet cambia continuamente a medida que los equipos añaden subdominios, despliegan servicios, rotan certificados y exponen interfaces administrativas. Los sistemas de escaneo rápido como ZMap demostraron que la medición a nivel de Internet puede ser práctica~\cite{Durumeric2013ZMap}; posteriormente Censys demostró cómo el escaneo repetido puede soportar una vista buscable de servicios públicos~\cite{Durumeric2015Censys}. Enterprise EASM reduce esa capacidad a los activos que una organización está autorizada a evaluar y añade priorización, comparación histórica y soporte para la mitigación. El nombre de la plataforma, \argos, está inspirado en Argos Panoptes, el gigante de cien ojos que todo lo ve de la mitología griega, simbolizando el monitoreo continuo y exhaustivo de la superficie de ataque.
 
 El problema de ingeniería no es solo ejecutar escáneres. Primero, el descubrimiento puede producir hosts de terceros o redirecciones, por lo que la autorización debe aplicarse nuevamente en el momento de la ejecución en lugar de asumirse desde una cadena de texto objetivo inicial. Segundo, los hallazgos basados en firmas son observaciones, no vulnerabilidades verificadas automáticamente. Tercero, la severidad por sí sola es una señal de remediación incompleta. Las limitaciones de un único valor del Sistema Común de Puntuación de Vulnerabilidades (CVSS) se han discutido desde los primeros análisis empíricos~\cite{Mell2006CVSS,Scarfone2009CVSS}, mientras que el Sistema de Puntuación de Predicción de Exploits (EPSS) y las encuestas recientes de priorización enfatizan la probabilidad de explotación, el contexto y las múltiples fuentes de evidencia~\cite{Jacobs2021EPSS,Jiang2025Prioritization}. Finalmente, un LLM que lee la salida del escáner está expuesto a texto controlado por el sistema escaneado. La inyección indirecta de prompts puede convertir el contenido recuperado en instrucciones adversariales~\cite{Greshake2023Indirect,Hines2024Spotlighting}.
@@ -158,7 +164,7 @@ La Fig.~\ref{fig:architecture} muestra las rutas de control y datos. El cliente 
 
 \subsection{Scope-constrained scan pipeline}
 
-El ejecutor de alcance acepta dominios exactos, comodines (wildcards), CIDRs y una lista separada de permitidos para CIDR de laboratorio. Las exclusiones explícitas de dominio y red tienen prioridad. La resolución DNS está deshabilitada por defecto; si se habilita, todas las direcciones resueltas se comprueban contra exclusiones y redes permitidas. Los adaptadores de ProjectDiscovery repiten la verificación de alcance inmediatamente antes de la ejecución del proceso. Esta segunda comprobación es importante porque la tubería puede recibir hosts del descubrimiento y rastreo en lugar de directamente del usuario.
+El ejecutor de alcance acepta dominios exactos, comodines (wildcards), CIDRs y una lista separada de permitidos para CIDR de laboratorio. Antes de autorizar un escaneo, el inquilino debe verificar el dominio objetivo para demostrar su propiedad. Esto se logra desplegando un registro DNS TXT específico o alojando un archivo \code{.well-known/argos-verification} en el servidor web. Las exclusiones explícitas de dominio y red tienen prioridad. La resolución DNS está deshabilitada por defecto; si se habilita, todas las direcciones resueltas se comprueban contra exclusiones y redes permitidas. Los adaptadores de ProjectDiscovery repiten la verificación de alcance inmediatamente antes de la ejecución del proceso. Esta segunda comprobación es importante porque la tubería puede recibir hosts del descubrimiento y rastreo en lugar de directamente del usuario.
 
 El worker ejecuta las siguientes etapas:
 \begin{equation}
